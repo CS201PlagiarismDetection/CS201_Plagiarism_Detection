@@ -7,4 +7,6 @@ Now these N-Grams and common words are basically the plagiarised content that we
 
 We now only have to come up with the best possible way to use these N-Grams and frequencies to calculate the similarity score.
 
+In the end when code is completed, we will try to optimize it as much as possible.
+
 Example text files a.txt and b.txt are attached to check the functionality of the code for now, we plan to use bigger text files once the code is fully ready.
