@@ -31,13 +31,13 @@ This program calculates the similarity between two text files by analyzing share
 
 ## Expected Output
 The program will produce the following output:
-1. N-Gram Generation:
+1. **N-Gram Generation**:
    The program generates and lists n-grams (2, 3, and 4-word sequences) from each file and identifies shared n-grams.
 
-2. Word Occurrences:
+2. **Word Occurrences**:
    The program then counts the occurrences of distinct common words (derived from the common n-grams) in each file.
 
-3. Similarity Scores:
+3. **Similarity Scores**:
    Finally, the program calculates and displays:
    - Similarity for File 1: The percentage of content in File 1 that matches content in File 2.
    - Similarity for File 2: The percentage of content in File 2 that matches content in File 1.
