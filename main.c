@@ -4,7 +4,7 @@
 #include <ctype.h>
 
 #define MAX_WORD_LENGTH 100
-#define STOP_WORD_COUNT 10
+#define STOP_WORD_COUNT 20
 #define MIN_NGRAM_LENGTH 2
 #define MAX_NGRAM_LENGTH 4
 #define MAX_COMMON_NGRAMS 100
@@ -18,7 +18,8 @@ struct TrieNode
 };
 
 // Predefined list of stop words
-const char *stopWords[STOP_WORD_COUNT] = {"the", "is", "a", "an", "and", "of", "to", "in", "that", "it"};
+const char *stopWords[STOP_WORD_COUNT] = {"the", "is", "a", "an", "and", "of", "to", "in", "that", "it",
+                                          "The", "Is", "A", "An", "And", "Of", "To", "In", "That", "It"};
 
 // Function to create a new Trie node
 struct TrieNode *createNode()
