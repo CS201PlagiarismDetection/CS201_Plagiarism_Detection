@@ -16,6 +16,6 @@ This program calculates the similarity between two text files by analyzing share
 1. Download or clone the code files to your local machine.
 2. Compile the code:
    ```bash
-   gcc -o text_similarity text_similarity.c
+   gcc -o main main.c
 
 
