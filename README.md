@@ -9,4 +9,4 @@ We now only have to come up with the best possible way to use these N-Grams and 
 
 In the end when the code is completed, we will try to optimize it as much as possible.
 
-Example text files a.txt and b.txt are attached to check the functionality of the code for now, we plan to use bigger text files once the code is fully ready.
+Example text files a.txt and b.txt are attached to check the functionality of the code for now, we plan to use bigger text files once the code is ready.
