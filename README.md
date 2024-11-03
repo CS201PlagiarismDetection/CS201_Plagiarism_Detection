@@ -18,4 +18,11 @@ This program calculates the similarity between two text files by analyzing share
    ```bash
    gcc -o main main.c
 
+## Execution
+1. Place two plain text files (.txt) you want to compare in the same directory as the compiled program.
+2. Run the program and enter the filenames when prompted
+
+## Input Format
+
+
 
