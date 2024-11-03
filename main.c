@@ -321,6 +321,7 @@ void displayTotalOccurrences(int wordCounts1[], int wordCounts2[], int distinctW
     printf("File 2: %d occurrences\n", totalFile2);
 }
 
+// Function to calculate the similarity score
 void calculateSimilarityScores(int wordCounts1[], int wordCounts2[], int distinctWordCount, int totalWordsFile1, int totalWordsFile2)
 {
     int totalCommonWordsFile1 = 0, totalCommonWordsFile2 = 0;
