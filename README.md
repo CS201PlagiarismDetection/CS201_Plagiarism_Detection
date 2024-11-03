@@ -29,5 +29,24 @@ This program calculates the similarity between two text files by analyzing share
   Enter the first filename (e.g., file1.txt): file1.txt
   Enter the second filename (e.g., file2.txt): file2.txt
 
+## Expected Output
+The program will produce the following output:
+1. N-Gram Generation
+   The program generates and lists n-grams (2, 3, and 4-word sequences) from each file and identifies shared n-grams.
+
+2. Word Occurrences
+   The program then counts the occurrences of distinct common words (derived from the common n-grams) in each file.
+
+3. Similarity Scores
+   Finally, the program calculates and displays:
+   - Similarity for File 1: The percentage of content in File 1 that matches content in File 2.
+   - Similarity for File 2: The percentage of content in File 2 that matches content in File 1.
+   - Combined Similarity: An overall similarity score reflecting the average overlap between the two files.
+     Sample output format:
+     ```bash
+     Similarity for File 1: 85.00%
+     Similarity for File 2: 80.00%
+     Combined Similarity: 82.50%
+
 
 
