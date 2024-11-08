@@ -167,7 +167,7 @@ int insertPhrasesFromFile(struct TrieNode *root, const char *filename, int nGram
     {
         int sentenceBoundary = 0;
         int len = strlen(word);
-        if (word[len - 1] == '.' || word[len - 1] == '?' || word[len - 1] == '!')
+        if (word[len - 1] == '.' || word[len - 1] == '?' || word[len - 1] == '!' || word[len - 1] == ',')
         {
             sentenceBoundary = 1;
             word[len - 1] = '\0';
