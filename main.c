@@ -3,12 +3,12 @@
 #include <string.h>
 #include <ctype.h>
 
-#define MAX_WORD_LENGTH 100
-#define STOP_WORD_COUNT 20
+#define MAX_WORD_LENGTH 15
+#define STOP_WORD_COUNT 36
 #define MIN_NGRAM_LENGTH 2
 #define MAX_NGRAM_LENGTH 4
-#define MAX_COMMON_NGRAMS 100
-#define MAX_DISTINCT_WORDS 100
+#define MAX_COMMON_NGRAMS 10000
+#define MAX_DISTINCT_WORDS 1000
 
 // Trie node structure, supports 27 characters (a-z + '|')
 struct TrieNode
@@ -18,8 +18,12 @@ struct TrieNode
 };
 
 // Predefined list of stop words
-const char *stopWords[STOP_WORD_COUNT] = {"the", "is", "a", "an", "and", "of", "to", "in", "that", "it",
-                                          "The", "Is", "A", "An", "And", "Of", "To", "In", "That", "It"};
+const char *stopWords[STOP_WORD_COUNT] = {"the", "is", "a", "an", "and", "of", "to", "in", "that", "it", "this", "of", "for", "are", "be", "or", "if", "has",
+                                          "The", "Is", "A", "An", "And", "Of", "To", "In", "That", "It", "This", "Of", "For", "Are", "Be", "Or", "If", "Has"};
+
+// Exclusion list to avoid stemming certain words
+const char *excludedWords[] = {"this", "is", "a", "an", "has"};
+#define EXCLUDED_WORD_COUNT (sizeof(excludedWords) / sizeof(excludedWords[0]))
 
 // Function to create a new Trie node
 struct TrieNode *createNode()
@@ -44,6 +48,19 @@ int getCharIndex(char c)
     {
         return tolower(c) - 'a'; // 'a' -> 0, 'z' -> 25
     }
+}
+
+// Function to check if a word is in the exclusion list
+int isExcludedWord(const char *word)
+{
+    for (int i = 0; i < EXCLUDED_WORD_COUNT; i++)
+    {
+        if (strcmp(word, excludedWords[i]) == 0)
+        {
+            return 1; // Word is in the exclusion list
+        }
+    }
+    return 0; // Word is not in the exclusion list
 }
 
 // Function to insert a phrase into the Trie
@@ -102,12 +119,19 @@ int isStopWord(const char *word)
 // Basic stemming function
 void stemWord(char *word)
 {
+    // Skip stemming if the word is in the exclusion list
+    if (isExcludedWord(word))
+    {
+        return;
+    }
+
     int len = strlen(word);
+    // Apply stemming rules for words not in the exclusion list
     if (len > 4 && strcmp(&word[len - 3], "ing") == 0)
     {
         word[len - 3] = '\0';
     }
-    else if (len > 3 && (strcmp(&word[len - 2], "ed") == 0 || strcmp(&word[len - 2], "ly") == 0))
+    else if (len > 3 && (strcmp(&word[len - 2], "ed") == 0 || strcmp(&word[len - 2], "es") == 0))
     {
         word[len - 2] = '\0';
     }
@@ -209,27 +233,29 @@ void findCommonNgrams(struct TrieNode *root1, struct TrieNode *root2, char *curr
         return;
     }
 
-    // If both nodes indicate the end of a word, it's a common n-gram
+    // Check if both nodes mark the end of a word, indicating a common n-gram
     if (root1->isEndOfWord && root2->isEndOfWord)
     {
         strcpy(commonNgrams[*commonCount], currentNgram);
         (*commonCount)++;
+        return; // Return to prevent further recursion once a valid n-gram is found
     }
 
-    // Traverse all possible children (a-z and '|')
+    // Traverse all possible children (for 'a'-'z' and '|')
     for (int i = 0; i < 27; i++)
-    { // Loop through all 26 letters and '|'
+    {
         if (root1->children[i] != NULL && root2->children[i] != NULL)
         {
-            // Add the corresponding character to the n-gram
-            char nextChar[2] = {(i == 26) ? '|' : (char)(i + 'a'), '\0'};
-            strcat(currentNgram, nextChar);
+            // Append the character to currentNgram
+            int len = strlen(currentNgram);
+            currentNgram[len] = (i == 26) ? '|' : (char)(i + 'a');
+            currentNgram[len + 1] = '\0';
 
-            // Recursively search further down both Tries
+            // Recursive call to continue building the n-gram
             findCommonNgrams(root1->children[i], root2->children[i], currentNgram, level + 1, commonCount, commonNgrams);
 
-            // Backtrack to previous state of currentNgram
-            currentNgram[level] = '\0';
+            // Backtrack: remove the last character to restore the state for the next iteration
+            currentNgram[len] = '\0';
         }
     }
 }
