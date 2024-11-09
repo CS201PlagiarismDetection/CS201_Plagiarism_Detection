@@ -37,6 +37,15 @@ struct TrieNode *createNode()
     return newNode;
 }
 
+// Helper function to convert all uppercases to lowercase letters during final common word counting
+void toLowercase(char *word)
+{
+    for (int i = 0; word[i]; i++)
+    {
+        word[i] = tolower(word[i]);
+    }
+}
+
 // Helper function to get the index of a character ('a' to 'z' => 0 to 25, '|' => 26)
 int getCharIndex(char c)
 {
@@ -307,17 +316,25 @@ void countWordOccurrencesInFile(char *filename, char distinctWords[MAX_DISTINCT_
     while (fscanf(file, "%s", word) != EOF)
     {
         int len = strlen(word);
+
+        // Remove punctuation at the end if present
         if (word[len - 1] == '.' || word[len - 1] == ',' || word[len - 1] == '?' || word[len - 1] == '!')
         {
-            word[len - 1] = '\0'; // Remove punctuation
+            word[len - 1] = '\0';
         }
 
+        // Convert word to lowercase to ensure consistent case
+        toLowercase(word);
+
+        // Apply stemming
         stemWord(word);
 
+        // Only count the word if it is not a stop word
         if (!isStopWord(word))
         {
             (*totalWords)++; // Increment total word count
 
+            // Check if the word matches any in distinctWords and count occurrences
             for (int i = 0; i < distinctWordCount; i++)
             {
                 if (strcmp(word, distinctWords[i]) == 0)
